@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberShield AI</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #0f172a;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-image: linear-gradient(135deg, #0f172a, #111827);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 900px;
+            background: #1e293b;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0px 0px 25px rgba(0, 255, 255, 0.2);
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 40px;
+            color: #38bdf8;
+        }
+
+        h3 {
+            text-align: center;
+            color: #cbd5e1;
+            margin-bottom: 30px;
+            font-weight: normal;
+        }
+
+        textarea {
+            width: 100%;
+            height: 260px;
+            border-radius: 10px;
+            border: 1px solid #334155;
+            padding: 15px;
+            font-size: 16px;
+            resize: none;
+            background: #0f172a;
+            color: white;
+            outline: none;
+        }
+
+        textarea:focus {
+            border: 1px solid #38bdf8;
+            box-shadow: 0px 0px 10px #38bdf8;
+        }
+
+        button {
+            margin-top: 20px;
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            background: #0ea5e9;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #0284c7;
+            transform: scale(1.02);
+        }
+
+        .result-card {
+            margin-top: 30px;
+            background: #111827;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 6px solid #38bdf8;
+        }
+
+        .result-card h2 {
+            margin-bottom: 10px;
+        }
+
+        .safe {
+            color: #22c55e;
+        }
+
+        .spam {
+            color: #ef4444;
+        }
+
+        .confidence {
+            font-size: 20px;
+            margin-top: 10px;
+        }
+
+        footer {
+            margin-top: 30px;
+            text-align: center;
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+        @media(max-width:700px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 30px;
+            }
+
+            textarea {
+                height: 220px;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>🛡 CyberShield AI</h1>
+
+        <h3>AI Powered Email Threat Analyzer</h3>
+
+        <form action="/predict" method="POST">
+
+            <textarea
+                name="email"
+                placeholder="Paste the email content here..."
+                required>{{ email if email else "" }}</textarea>
+
+            <button type="submit">
+                🔍 Analyze Email
+            </button>
+
+        </form>
+
+        {% if prediction %}
+
+        <div class="result-card">
+
+            {% if "Safe" in prediction %}
+
+            <h2 class="safe">
+                {{ prediction }}
+            </h2>
+
+            {% else %}
+
+            <h2 class="spam">
+                {{ prediction }}
+            </h2>
+
+            {% endif %}
+
+            <div class="confidence">
+                Confidence Score:
+                <strong>{{ confidence }}%</strong>
+            </div>
+            <hr style="margin:20px 0; border-color:#334155;">
+
+<h3 style="color:#38bdf8; text-align:left; margin-bottom:15px;">
+    🛡 Threat Analysis
+</h3>
+
+{% if threats %}
+
+<ul style="padding-left:20px; line-height:2;">
+
+    {% for threat in threats %}
+
+    <li>{{ threat }}</li>
+
+    {% endfor %}
+
+</ul>
+
+{% else %}
+
+<p style="color:#22c55e;">
+    ✅ No suspicious indicators detected.
+</p>
+
+{% endif %}
+
+<hr style="margin:20px 0; border-color:#334155;">
+
+<h3 style="color:#38bdf8; text-align:left;">
+    💡 Recommendation
+</h3>
+
+{% if "Safe" in prediction %}
+
+<p style="margin-top:10px;">
+This email appears safe. Still avoid clicking unknown links or downloading unexpected attachments.
+</p>
+
+{% else %}
+
+<p style="margin-top:10px;color:#fbbf24;">
+Do not click any links or download attachments. Delete the email or report it to your IT/Security team.
+</p>
+
+{% endif %}
+
+        </div>
+
+        {% endif %}
+
+        <footer>
+
+            CyberShield AI © 2026 <br>
+            Built with Flask • Scikit-learn • Machine Learning
+
+        </footer>
+
+    </div>
+
+</body>
+
+</html>
