@@ -203,10 +203,10 @@
 <hr style="margin:20px 0; border-color:#334155;">
 
 <h3 style="color:#38bdf8; text-align:left;">
-    💡 Recommendation
+ 💡 Recommendation
 </h3>
 
-{% if "Safe" in prediction %}
+{% if "Safe" in prediction  %}
 
 <p style="margin-top:10px;">
 This email appears safe. Still avoid clicking unknown links or downloading unexpected attachments.
@@ -219,7 +219,29 @@ Do not click any links or download attachments. Delete the email or report it to
 </p>
 
 {% endif %}
+<hr style="margin:20px 0;">
 
+<h3 style="color:#38bdf8; text-align:left;">
+🌐 URLs Found
+</h3>
+
+{% if urls %}
+
+<ul>
+
+{% for url in urls %}
+
+<li>{{ url }}</li>
+
+{% endfor %}
+
+</ul>
+
+{% else %}
+
+<p>No URLs Found.</p>
+
+{% endif %}
         </div>
 
         {% endif %}

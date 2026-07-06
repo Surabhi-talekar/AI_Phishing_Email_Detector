@@ -83,6 +83,13 @@ def detect_threats(email):
         threats.append("🎁 Prize / Reward language detected")
 
     return threats
+# ----------------------------
+# URL Extraction
+# ----------------------------
+def extract_urls(email):
+    pattern = r'https?://[^\s]+'
+    urls = re.findall(pattern, email)
+    return urls
 
   
 @app.route("/")
@@ -96,6 +103,9 @@ def predict():
     email = request.form["email"]
     
     threats = detect_threats(email)
+    urls = extract_urls(email)
+
+    print("URLs Found:", urls)
 
     print(threats)
 
@@ -115,12 +125,13 @@ def predict():
         result = "✅ Safe Email"
 
     return render_template(
-        "index.html",
-        prediction=result,
-        confidence=round(confidence, 2),
-        email=email,
-        threats=threats
-    )
+    "index.html",
+    prediction=result,
+    confidence=round(confidence, 2),
+    email=email,
+    threats=threats,
+    urls=urls
+)
 
 
 if __name__ == "__main__":
