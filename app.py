@@ -48,6 +48,23 @@ REWARD_WORDS = [
     "prize"
 ]
 
+# ----------------------------
+# Suspicious URL Keywords
+# ----------------------------
+
+SUSPICIOUS_URL_WORDS = [
+    "login",
+    "verify",
+    "secure",
+    "update",
+    "bank",
+    "paypal",
+    "account",
+    "signin",
+    "password",
+    "confirm"
+]
+
 
 # Text cleaning function
 def clean_text(text):
@@ -90,6 +107,51 @@ def extract_urls(email):
     pattern = r'https?://[^\s]+'
     urls = re.findall(pattern, email)
     return urls
+# ----------------------------
+# URL Risk Analysis
+# ----------------------------
+
+def analyze_urls(urls):
+
+    analysis = []
+
+    for url in urls:
+
+        info = {}
+
+        info["url"] = url
+
+        # HTTPS or HTTP
+        if url.startswith("https://"):
+            info["security"] = "✅ HTTPS (Secure)"
+        else:
+            info["security"] = "❌ HTTP (Not Secure)"
+
+        # Suspicious keywords
+        found_keywords = []
+
+        lower_url = url.lower()
+
+        for word in SUSPICIOUS_URL_WORDS:
+
+            if word in lower_url:
+                found_keywords.append(word)
+
+        info["keywords"] = found_keywords
+
+        # Risk Level
+        if info["security"].startswith("❌") or len(found_keywords) >= 2:
+            info["risk"] = "🔴 High"
+
+        elif len(found_keywords) == 1:
+            info["risk"] = "🟡 Medium"
+
+        else:
+            info["risk"] = "🟢 Low"
+
+        analysis.append(info)
+
+    return analysis
 
   
 @app.route("/")
@@ -104,6 +166,7 @@ def predict():
     
     threats = detect_threats(email)
     urls = extract_urls(email)
+    url_analysis = analyze_urls(urls)
 
     print("URLs Found:", urls)
 
@@ -123,15 +186,22 @@ def predict():
         result = "🚨 Phishing / Spam Email"
     else:
         result = "✅ Safe Email"
-
+        url_analysis = analyze_urls(urls)
+        print(url_analysis)
     return render_template(
     "index.html",
     prediction=result,
     confidence=round(confidence, 2),
     email=email,
     threats=threats,
-    urls=urls
-)
+    urls=urls,
+    url_analysis=url_analysis
+    
+    
+)    
+   
+
+   
 
 
 if __name__ == "__main__":

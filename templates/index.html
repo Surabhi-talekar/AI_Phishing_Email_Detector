@@ -2,236 +2,315 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>CyberShield AI</title>
 
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, Helvetica, sans-serif;
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial, Helvetica, sans-serif;
         }
 
-        body {
-            background: #0f172a;
-            color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background-image: linear-gradient(135deg, #0f172a, #111827);
+        body{
+
+            background:#0f172a;
+            background-image:linear-gradient(135deg,#0f172a,#111827);
+
+            color:white;
+
+            display:flex;
+            justify-content:center;
+            align-items:center;
+
+            min-height:100vh;
+
+            padding:40px;
+
         }
 
-        .container {
-            width: 90%;
-            max-width: 900px;
-            background: #1e293b;
-            border-radius: 15px;
-            padding: 40px;
-            box-shadow: 0px 0px 25px rgba(0, 255, 255, 0.2);
+        .container{
+
+            width:95%;
+            max-width:950px;
+
+            background:#1e293b;
+
+            border-radius:15px;
+
+            padding:40px;
+
+            box-shadow:0px 0px 25px rgba(0,255,255,.2);
+
         }
 
-        h1 {
-            text-align: center;
-            font-size: 40px;
-            color: #38bdf8;
+        h1{
+
+            text-align:center;
+
+            color:#38bdf8;
+
+            font-size:42px;
+
         }
 
-        h3 {
-            text-align: center;
-            color: #cbd5e1;
-            margin-bottom: 30px;
-            font-weight: normal;
+        h3{
+
+            text-align:center;
+
+            color:#cbd5e1;
+
+            margin-top:8px;
+
+            margin-bottom:30px;
+
+            font-weight:normal;
+
         }
 
-        textarea {
-            width: 100%;
-            height: 260px;
-            border-radius: 10px;
-            border: 1px solid #334155;
-            padding: 15px;
-            font-size: 16px;
-            resize: none;
-            background: #0f172a;
-            color: white;
-            outline: none;
+        textarea{
+
+            width:100%;
+
+            height:250px;
+
+            background:#0f172a;
+
+            color:white;
+
+            border:1px solid #334155;
+
+            border-radius:10px;
+
+            padding:15px;
+
+            resize:none;
+
+            outline:none;
+
+            font-size:16px;
+
         }
 
-        textarea:focus {
-            border: 1px solid #38bdf8;
-            box-shadow: 0px 0px 10px #38bdf8;
+        textarea:focus{
+
+            border:1px solid #38bdf8;
+
+            box-shadow:0px 0px 10px #38bdf8;
+
         }
 
-        button {
-            margin-top: 20px;
-            width: 100%;
-            padding: 15px;
-            border: none;
-            border-radius: 10px;
-            background: #0ea5e9;
-            color: white;
-            font-size: 18px;
-            cursor: pointer;
-            transition: 0.3s;
+        button{
+
+            width:100%;
+
+            margin-top:20px;
+
+            padding:15px;
+
+            border:none;
+
+            border-radius:10px;
+
+            background:#0ea5e9;
+
+            color:white;
+
+            font-size:18px;
+
+            cursor:pointer;
+
+            transition:.3s;
+
         }
 
-        button:hover {
-            background: #0284c7;
-            transform: scale(1.02);
+        button:hover{
+
+            background:#0284c7;
+
+            transform:scale(1.02);
+
         }
 
-        .result-card {
-            margin-top: 30px;
-            background: #111827;
-            padding: 20px;
-            border-radius: 10px;
-            border-left: 6px solid #38bdf8;
+        .result-card{
+
+            margin-top:30px;
+
+            background:#111827;
+
+            border-radius:12px;
+
+            padding:25px;
+
+            border-left:6px solid #38bdf8;
+
         }
 
-        .result-card h2 {
-            margin-bottom: 10px;
+        .safe{
+
+            color:#22c55e;
+
         }
 
-        .safe {
-            color: #22c55e;
+        .spam{
+
+            color:#ef4444;
+
         }
 
-        .spam {
-            color: #ef4444;
+        .section-title{
+
+            color:#38bdf8;
+
+            margin-top:20px;
+
+            margin-bottom:10px;
+
+            text-align:left;
+
         }
 
-        .confidence {
-            font-size: 20px;
-            margin-top: 10px;
+        .confidence{
+
+            margin-top:10px;
+
+            font-size:20px;
+
         }
 
-        footer {
-            margin-top: 30px;
-            text-align: center;
-            color: #94a3b8;
-            font-size: 14px;
+        .info-box{
+
+            background:#1e293b;
+
+            padding:15px;
+
+            border-radius:10px;
+
+            margin-top:15px;
+
+            border-left:5px solid #38bdf8;
+
         }
 
-        @media(max-width:700px) {
-            .container {
-                padding: 20px;
+        ul{
+
+            padding-left:20px;
+
+            line-height:2;
+
+        }
+
+        hr{
+
+            border:1px solid #334155;
+
+            margin:20px 0;
+
+        }
+
+        footer{
+
+            margin-top:30px;
+
+            text-align:center;
+
+            color:#94a3b8;
+
+            font-size:14px;
+
+        }
+
+        @media(max-width:700px){
+
+            .container{
+
+                padding:20px;
+
             }
 
-            h1 {
-                font-size: 30px;
+            h1{
+
+                font-size:30px;
+
             }
 
-            textarea {
-                height: 220px;
+            textarea{
+
+                height:220px;
+
             }
+
         }
+
     </style>
 
 </head>
 
 <body>
 
-    <div class="container">
+<div class="container">
 
-        <h1>🛡 CyberShield AI</h1>
+<h1>🛡 CyberShield AI</h1>
 
-        <h3>AI Powered Email Threat Analyzer</h3>
+<h3>AI Powered Email Threat Analyzer</h3>
 
-        <form action="/predict" method="POST">
+<form action="/predict" method="POST">
 
-            <textarea
-                name="email"
-                placeholder="Paste the email content here..."
-                required>{{ email if email else "" }}</textarea>
+<textarea
+name="email"
+placeholder="Paste the email content here..."
+required>{{ email if email else "" }}</textarea>
 
-            <button type="submit">
-                🔍 Analyze Email
-            </button>
+<button type="submit">
 
-        </form>
+🔍 Analyze Email
 
-        {% if prediction %}
+</button>
 
-        <div class="result-card">
+</form>
 
-            {% if "Safe" in prediction %}
+{% if prediction %}
 
-            <h2 class="safe">
-                {{ prediction }}
-            </h2>
+<div class="result-card">
 
-            {% else %}
+{% if "Safe" in prediction %}
 
-            <h2 class="spam">
-                {{ prediction }}
-            </h2>
+<h2 class="safe">{{ prediction }}</h2>
 
-            {% endif %}
+{% else %}
 
-            <div class="confidence">
-                Confidence Score:
-                <strong>{{ confidence }}%</strong>
-            </div>
-            <hr style="margin:20px 0; border-color:#334155;">
+<h2 class="spam">{{ prediction }}</h2>
 
-<h3 style="color:#38bdf8; text-align:left; margin-bottom:15px;">
-    🛡 Threat Analysis
+{% endif %}
+
+<div class="confidence">
+
+<b>Confidence Score :</b>
+
+{{ confidence }}%
+
+</div>
+
+<hr>
+
+<h3 class="section-title">
+
+🛡 Threat Analysis
+
 </h3>
 
 {% if threats %}
 
-<ul style="padding-left:20px; line-height:2;">
-
-    {% for threat in threats %}
-
-    <li>{{ threat }}</li>
-
-    {% endfor %}
-
-</ul>
-
-{% else %}
-
-<p style="color:#22c55e;">
-    ✅ No suspicious indicators detected.
-</p>
-
-{% endif %}
-
-<hr style="margin:20px 0; border-color:#334155;">
-
-<h3 style="color:#38bdf8; text-align:left;">
- 💡 Recommendation
-</h3>
-
-{% if "Safe" in prediction  %}
-
-<p style="margin-top:10px;">
-This email appears safe. Still avoid clicking unknown links or downloading unexpected attachments.
-</p>
-
-{% else %}
-
-<p style="margin-top:10px;color:#fbbf24;">
-Do not click any links or download attachments. Delete the email or report it to your IT/Security team.
-</p>
-
-{% endif %}
-<hr style="margin:20px 0;">
-
-<h3 style="color:#38bdf8; text-align:left;">
-🌐 URLs Found
-</h3>
-
-{% if urls %}
-
 <ul>
 
-{% for url in urls %}
+{% for threat in threats %}
 
-<li>{{ url }}</li>
+<li>{{ threat }}</li>
 
 {% endfor %}
 
@@ -239,21 +318,119 @@ Do not click any links or download attachments. Delete the email or report it to
 
 {% else %}
 
-<p>No URLs Found.</p>
+<p style="color:#22c55e;">
+
+✅ No suspicious indicators detected.
+
+</p>
 
 {% endif %}
-        </div>
 
-        {% endif %}
+<hr>
 
-        <footer>
+<h3 class="section-title">
 
-            CyberShield AI © 2026 <br>
-            Built with Flask • Scikit-learn • Machine Learning
+💡 Recommendation
 
-        </footer>
+</h3>
 
-    </div>
+{% if "Safe" in prediction %}
+
+<div class="info-box">
+
+This email appears safe.
+
+Always verify unknown links and avoid downloading unexpected attachments.
+
+</div>
+
+{% else %}
+
+<div class="info-box">
+
+Do not click any links or attachments.
+
+Report this email to your IT or Security team immediately.
+
+</div>
+
+{% endif %}
+
+<hr>
+
+<h3 class="section-title">
+
+🌐 URL Security Analysis
+
+</h3>
+
+{% if url_analysis %}
+{% for item in url_analysis %}
+
+<div class="info-box">
+
+<p>
+<strong>🔗 URL:</strong>
+{{ item.url }}
+</p>
+
+<p>
+<strong>Security:</strong>
+{{ item.security }}
+</p>
+
+<p>
+<strong>Risk Level:</strong>
+{{ item.risk }}
+</p>
+
+<p>
+
+<strong>Suspicious Keywords:</strong>
+
+{% if item.keywords %}
+
+{{ item.keywords | join(', ') }}
+
+{% else %}
+
+None
+
+{% endif %}
+
+</p>
+
+</div>
+
+{% endfor %}
+
+{% else %}
+
+<div class="info-box">
+
+No URLs Found.
+
+</div>
+
+{% endif %}
+
+<hr>
+
+<footer>
+
+CyberShield AI © 2026
+
+<br><br>
+
+Built with ❤️ using Flask • Machine Learning • Scikit-learn
+
+</footer>
+
+</div>
+
+{% endif %}
+
+</div>
 
 </body>
 
