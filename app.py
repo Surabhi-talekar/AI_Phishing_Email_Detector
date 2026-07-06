@@ -101,6 +101,31 @@ def detect_threats(email):
 
     return threats
 # ----------------------------
+# Highlight Suspicious Words
+# ----------------------------
+
+def highlight_text(email):
+
+    suspicious_words = (
+        URGENT_WORDS
+        + BANKING_WORDS
+        + CREDENTIAL_WORDS
+        + REWARD_WORDS
+    )
+
+    highlighted = email
+
+    for word in suspicious_words:
+
+        pattern = re.compile(r'\b' + re.escape(word) + r'\b', re.IGNORECASE)
+
+        highlighted = pattern.sub(
+            lambda match: f"<mark>{match.group(0)}</mark>",
+            highlighted
+        )
+
+    return highlighted
+# ----------------------------
 # URL Extraction
 # ----------------------------
 def extract_urls(email):
@@ -166,7 +191,9 @@ def predict():
     
     threats = detect_threats(email)
     urls = extract_urls(email)
+    
     url_analysis = analyze_urls(urls)
+    highlighted_email = highlight_text(email)
 
     print("URLs Found:", urls)
 
@@ -195,7 +222,8 @@ def predict():
     email=email,
     threats=threats,
     urls=urls,
-    url_analysis=url_analysis
+    url_analysis=url_analysis,
+    highlighted_email=highlighted_email
     
     
 )    
