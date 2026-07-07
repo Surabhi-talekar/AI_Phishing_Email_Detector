@@ -2,8 +2,10 @@ from flask import Flask, render_template, request, redirect, url_for, session,se
 import joblib
 import re
 import os
+from datetime import datetime
 from reportlab.pdfgen import canvas
 import io
+
 # Create Flask app
 app = Flask(__name__)
 
@@ -363,18 +365,61 @@ def download_report():
 
     pdf.setTitle("CyberShield AI Report")
 
-    pdf.setFont("Helvetica-Bold", 18)
-    pdf.drawString(50, 800, "CyberShield AI - Email Analysis Report")
+# -----------------------------
+# Header
+# -----------------------------
+
+    pdf.setFont("Helvetica-Bold", 24)
+    pdf.drawString(50, 810, "🛡 CyberShield AI")
+
+    pdf.setFont("Helvetica", 14)
+    pdf.drawString(50, 790, "AI Powered Email Threat Analysis Report")
+
+# Horizontal line
+    pdf.line(50, 780, 550, 780)
 
     pdf.setFont("Helvetica", 12)
+    now = datetime.now()
 
-    y = 760
+    date = now.strftime("%d %B %Y")
+    time = now.strftime("%I:%M %p")
 
-    pdf.drawString(50, y, f"Prediction: {session.get('prediction', 'N/A')}")
-    y -= 25
+    y = 750
 
-    pdf.drawString(50, y, f"Confidence: {session.get('confidence', 'N/A')}%")
+    pdf.drawString(50, y, f"Date : {date}")
+
+    pdf.drawString(350, y, f"Time : {time}")
+
     y -= 30
+
+     # -----------------------------
+# Prediction
+# -----------------------------
+
+    pdf.setFont("Helvetica-Bold", 14)
+    pdf.drawString(50, y, "Prediction")
+
+    y -= 20
+
+    pdf.setFont("Helvetica", 12)
+    pdf.drawString(70, y, session.get("prediction", "N/A"))
+
+    y -= 30
+
+    pdf.setFont("Helvetica-Bold", 14)
+    pdf.drawString(50, y, "Confidence Score")
+
+    y -= 20
+
+    pdf.setFont("Helvetica", 12)
+    pdf.drawString(70, y, f"{session.get('confidence', 'N/A')} %")
+
+    y -= 30
+
+# Horizontal line
+    pdf.line(50, y, 550, y)
+
+    y -= 25
 
     pdf.drawString(50, y, "Threats:")
     y -= 20
