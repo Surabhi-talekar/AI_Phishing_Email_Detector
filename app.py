@@ -1,7 +1,9 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session,send_file
 import joblib
 import re
 import os
+from reportlab.pdfgen import canvas
+import io
 # Create Flask app
 app = Flask(__name__)
 
@@ -334,6 +336,11 @@ def predict():
         result = "🚨 Phishing / Spam Email"
     else:
         result = "✅ Safe Email"
+    session["prediction"] = result
+    session["confidence"] = round(confidence, 2)
+    session["threats"] = threats
+    session["urls"] = urls
+    session["attachments"] = attachments
 
     return render_template(
         "index.html",
@@ -347,6 +354,78 @@ def predict():
         attachments=attachments,
         sender_info=sender_info
     )  
+@app.route("/download_report")
+def download_report():
+
+    buffer = io.BytesIO()
+
+    pdf = canvas.Canvas(buffer)
+
+    pdf.setTitle("CyberShield AI Report")
+
+    pdf.setFont("Helvetica-Bold", 18)
+    pdf.drawString(50, 800, "CyberShield AI - Email Analysis Report")
+
+    pdf.setFont("Helvetica", 12)
+
+    y = 760
+
+    pdf.drawString(50, y, f"Prediction: {session.get('prediction', 'N/A')}")
+    y -= 25
+
+    pdf.drawString(50, y, f"Confidence: {session.get('confidence', 'N/A')}%")
+    y -= 30
+
+    pdf.drawString(50, y, "Threats:")
+    y -= 20
+
+    threats = session.get("threats", [])
+
+    if threats:
+        for threat in threats:
+            pdf.drawString(70, y, f"- {threat}")
+            y -= 20
+    else:
+        pdf.drawString(70, y, "No threats detected.")
+        y -= 20
+
+    y -= 10
+
+    pdf.drawString(50, y, "URLs:")
+    y -= 20
+
+    urls = session.get("urls", [])
+
+    if urls:
+        for url in urls:
+            pdf.drawString(70, y, url)
+            y -= 20
+    else:
+        pdf.drawString(70, y, "No URLs found.")
+        y -= 20
+
+    y -= 10
+
+    pdf.drawString(50, y, "Attachments:")
+    y -= 20
+
+    attachments = session.get("attachments", [])
+
+    if attachments:
+        pdf.drawString(70, y, ", ".join(attachments))
+    else:
+        pdf.drawString(70, y, "None")
+
+    pdf.save()
+
+    buffer.seek(0)
+
+    return send_file(
+        buffer,
+        as_attachment=True,
+        download_name="CyberShield_Report.pdf",
+        mimetype="application/pdf"
+    )
    
 
    
