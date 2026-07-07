@@ -1,9 +1,11 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for, session
 import joblib
 import re
 import os
 # Create Flask app
 app = Flask(__name__)
+
+app.secret_key = "cybershield_secret_key"
 
 # Load AI model
 model = joblib.load("model/phishing_model.pkl")
@@ -260,7 +262,33 @@ def analyze_urls(urls):
   
 @app.route("/")
 def home():
+
+    if "user" not in session:
+        return redirect(url_for("login"))
+
     return render_template("index.html")
+@app.route("/login", methods=["GET", "POST"])
+def login():
+
+    if request.method == "POST":
+
+        username = request.form["username"]
+        password = request.form["password"]
+
+        if username == "admin" and password == "cyber123":
+
+            session["user"] = username
+
+            return redirect(url_for("home"))
+
+        else:
+
+            return render_template(
+                "login.html",
+                error="Invalid Username or Password"
+            )
+
+    return render_template("login.html")
 
 
 @app.route("/predict", methods=["POST"])
@@ -273,6 +301,12 @@ def predict():
     # If a file is uploaded, use its contents
     if uploaded_file and uploaded_file.filename != "":
         email = uploaded_file.read().decode("utf-8")
+    if not email.strip():
+
+     return render_template(
+        "index.html",
+        error="⚠ Please paste an email or upload a .txt file."
+    )
 
     # -----------------------
     # Analyze Email

@@ -270,11 +270,12 @@
 <h3>AI Powered Email Threat Analyzer</h3>
 
 <form action="/predict" method="POST" enctype="multipart/form-data">
-
+<p style="margin-bottom:10px; color:#cbd5e1;">
+Paste an email <strong>or</strong> upload a <strong>.txt</strong> file.
+</p>
 <textarea
 name="email"
-placeholder="Paste the email content here..."
-required>{{ email if email else "" }}</textarea>
+placeholder="Paste the email content here...">{{ email if email else "" }}</textarea>
 <br><br>
 
 <label style="font-weight:bold;">
@@ -301,7 +302,22 @@ border:1px solid #334155;
 </button>
 
 </form>
+{% if error %}
 
+<div style="
+margin-top:20px;
+padding:15px;
+background:#7f1d1d;
+border-left:5px solid red;
+border-radius:8px;
+color:white;
+">
+
+{{ error }}
+
+</div>
+
+{% endif %}
 {% if prediction %}
 
 <div class="result-card">
