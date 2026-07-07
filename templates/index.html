@@ -269,13 +269,31 @@
 
 <h3>AI Powered Email Threat Analyzer</h3>
 
-<form action="/predict" method="POST">
+<form action="/predict" method="POST" enctype="multipart/form-data">
 
 <textarea
 name="email"
 placeholder="Paste the email content here..."
 required>{{ email if email else "" }}</textarea>
+<br><br>
 
+<label style="font-weight:bold;">
+📂 Upload Email File (.txt)
+</label>
+
+<input
+type="file"
+name="email_file"
+accept=".txt"
+style="
+margin-top:10px;
+width:100%;
+padding:10px;
+background:#1e293b;
+color:white;
+border-radius:8px;
+border:1px solid #334155;
+">
 <button type="submit">
 
 🔍 Analyze Email
@@ -368,9 +386,63 @@ Report this email to your IT or Security team immediately.
 </div>
 
 {% endif %}
-
 <hr>
 
+<h3 class="section-title">
+📎 Attachment Analysis
+</h3>
+
+{% if attachments %}
+
+<div class="highlight-box">
+
+<p><strong>Attachment-related keywords detected:</strong></p>
+
+<ul>
+
+{% for attachment in attachments %}
+
+<li>{{ attachment }}</li>
+
+{% endfor %}
+
+</ul>
+
+</div>
+
+{% else %}
+
+<div class="highlight-box">
+
+✅ No attachment-related keywords detected.
+
+</div>
+
+{% endif %}
+<hr>
+<hr>
+
+<h3 class="section-title">
+📧 Sender Analysis
+</h3>
+
+<div class="highlight-box">
+
+{% if sender_info %}
+
+<p><strong>Sender:</strong> {{ sender_info.sender }}</p>
+
+<p><strong>Domain:</strong> {{ sender_info.domain }}</p>
+
+<p><strong>Status:</strong> {{ sender_info.status }}</p>
+
+{% else %}
+
+<p>No sender email found.</p>
+
+{% endif %}
+
+</div>
 
 
 <h3 class="section-title">

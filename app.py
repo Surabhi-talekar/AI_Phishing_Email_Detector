@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request
 import joblib
 import re
-
+import os
 # Create Flask app
 app = Flask(__name__)
 
@@ -48,6 +48,45 @@ REWARD_WORDS = [
     "prize"
 ]
 
+ATTACHMENT_WORDS = [
+    "attachment",
+    "attached",
+    "download",
+    "invoice",
+    "document",
+    "pdf",
+    "zip",
+    "doc",
+    "docx",
+    "xls",
+    "xlsx",
+    "exe"
+]
+
+TRUSTED_DOMAINS = [
+    "gmail.com",
+    "outlook.com",
+    "hotmail.com",
+    "yahoo.com",
+    "paypal.com",
+    "amazon.com",
+    "google.com",
+    "microsoft.com",
+    "apple.com",
+    "linkedin.com"
+]
+TRUSTED_DOMAINS = [
+    "gmail.com",
+    "outlook.com",
+    "hotmail.com",
+    "yahoo.com",
+    "paypal.com",
+    "amazon.com",
+    "google.com",
+    "microsoft.com",
+    "apple.com",
+    "linkedin.com"
+]
 # ----------------------------
 # Suspicious URL Keywords
 # ----------------------------
@@ -132,6 +171,46 @@ def extract_urls(email):
     pattern = r'https?://[^\s]+'
     urls = re.findall(pattern, email)
     return urls
+
+# ----------------------------
+# Attachment Detection
+# ----------------------------
+def detect_attachments(email):
+
+    attachments = []
+
+    email = email.lower()
+
+    for word in ATTACHMENT_WORDS:
+        if word in email:
+            attachments.append(word)
+
+    return list(set(attachments))
+def analyze_sender(email):
+
+    pattern = r'[\w\.-]+@[\w\.-]+'
+
+    match = re.search(pattern, email)
+
+    if not match:
+        return None
+
+    sender = match.group()
+
+    domain = sender.split("@")[1]
+
+    if domain in TRUSTED_DOMAINS:
+        status = "✅ Trusted Domain"
+
+    else:
+        status = "⚠ Unknown Domain"
+
+    return {
+        "sender": sender,
+        "domain": domain,
+        "status": status
+    }
+
 # ----------------------------
 # URL Risk Analysis
 # ----------------------------
@@ -187,17 +266,25 @@ def home():
 @app.route("/predict", methods=["POST"])
 def predict():
 
-    email = request.form["email"]
-    
+    email = request.form.get("email", "")
+
+    uploaded_file = request.files.get("email_file")
+
+    # If a file is uploaded, use its contents
+    if uploaded_file and uploaded_file.filename != "":
+        email = uploaded_file.read().decode("utf-8")
+
+    # -----------------------
+    # Analyze Email
+    # -----------------------
+
     threats = detect_threats(email)
     urls = extract_urls(email)
-    
+
     url_analysis = analyze_urls(urls)
     highlighted_email = highlight_text(email)
-
-    print("URLs Found:", urls)
-
-    print(threats)
+    attachments = detect_attachments(email)
+    sender_info = analyze_sender(email)
 
     cleaned = clean_text(email)
 
@@ -213,20 +300,19 @@ def predict():
         result = "🚨 Phishing / Spam Email"
     else:
         result = "✅ Safe Email"
-        url_analysis = analyze_urls(urls)
-        print(url_analysis)
+
     return render_template(
-    "index.html",
-    prediction=result,
-    confidence=round(confidence, 2),
-    email=email,
-    threats=threats,
-    urls=urls,
-    url_analysis=url_analysis,
-    highlighted_email=highlighted_email
-    
-    
-)    
+        "index.html",
+        prediction=result,
+        confidence=round(confidence, 2),
+        email=email,
+        threats=threats,
+        urls=urls,
+        url_analysis=url_analysis,
+        highlighted_email=highlighted_email,
+        attachments=attachments,
+        sender_info=sender_info
+    )  
    
 
    
