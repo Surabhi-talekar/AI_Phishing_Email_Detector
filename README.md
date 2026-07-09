@@ -1,133 +1,109 @@
-# 🛡️ CyberShield AI - Phishing Email Detection System
+# 🛡 CyberShield AI
 
-CyberShield AI is an AI-powered phishing email detection system built using **Python, Flask, and Machine Learning**. The application analyzes email content, predicts whether it is phishing or safe, detects suspicious indicators, extracts URLs, and performs URL security analysis.
-
----
-
-## 📌 Features
-
-- 🤖 AI-based phishing email detection
-- 📊 Confidence score prediction
-- ⚠️ Threat analysis using suspicious keywords
-- 💡 Security recommendations
-- 🌐 URL extraction from email content
-- 🔍 URL security analysis
-- 🔒 Detects HTTP and HTTPS links
-- 🚨 Identifies suspicious URL keywords
-- 🎨 Modern and responsive user interface
+An AI-powered Email Threat Analyzer built using **Flask** and **Machine Learning** that detects phishing emails and provides detailed threat analysis, URL inspection, sender analysis, attachment detection, and downloadable PDF reports.
 
 ---
 
-## 🖥️ Technologies Used
+## 📌 Project Overview
 
-- Python 3.x
-- Flask
+CyberShield AI is a cybersecurity web application that helps users identify phishing and spam emails using Machine Learning. The application analyzes email content, highlights suspicious keywords, inspects URLs, detects attachment-related threats, and generates a detailed PDF report.
+
+---
+
+## ✨ Features
+
+- 🔐 User Login Authentication
+- 🤖 AI-based Phishing Email Detection
+- 📊 Confidence Score
+- ⚠ Threat Analysis
+- 🌐 URL Extraction & Security Analysis
+- 📧 Sender Domain Analysis
+- 📎 Attachment Detection
+- 📝 Suspicious Keyword Highlighting
+- 📄 Download Analysis Report as PDF
+- 📂 Email File (.txt) Upload Support
+- 🎨 Responsive and User-Friendly Interface
+
+---
+
+## 🛠 Technologies Used
+
+### Frontend
+- HTML5
+- CSS3
+
+### Backend
+- Flask (Python)
+
+### Machine Learning
 - Scikit-learn
-- Pandas
-- NumPy
+- TF-IDF Vectorizer
+- Logistic Regression
+
+### Libraries
 - Joblib
-- HTML
-- CSS
-- Regular Expressions (Regex)
+- ReportLab
+- Regular Expressions (re)
 
 ---
 
 ## 📂 Project Structure
 
 ```
-AI_Phishing_Email_Detector/
+CyberShield-AI/
 │
-├── dataset/
-│   └── phishing_email.csv
+├── app.py
+├── requirements.txt
+├── README.md
+├── .gitignore
 │
 ├── model/
 │   ├── phishing_model.pkl
 │   └── vectorizer.pkl
 │
 ├── templates/
+│   ├── login.html
 │   └── index.html
 │
-├── train_model.py
-├── app.py
-├── requirements.txt
-├── README.md
-└── venv/
+├── static/
+│   ├── style.css
+│   └── logo.png
+│
+├── screenshots/
+│
+└── dataset/
+    └── phishing_email.csv
 ```
 
 ---
 
-## ⚙️ Installation
+## ⚙ Installation
 
-### 1. Clone the Repository
+### Clone Repository
 
 ```bash
-git clone https://github.com/yourusername/CyberShield-AI.git
+git clone https://github.com/YOUR_USERNAME/CyberShield-AI.git
 ```
 
----
-
-### 2. Open the Project
+### Move into Project Folder
 
 ```bash
 cd CyberShield-AI
 ```
 
----
-
-### 3. Create Virtual Environment
-
-```bash
-python -m venv venv
-```
-
----
-
-### 4. Activate Virtual Environment
-
-#### Windows
-
-```bash
-venv\Scripts\activate
-```
-
-#### Linux / macOS
-
-```bash
-source venv/bin/activate
-```
-
----
-
-### 5. Install Dependencies
+### Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
----
-
-### 6. Train the Model
-
-```bash
-python train_model.py
-```
-
-This will generate:
-
-- phishing_model.pkl
-- vectorizer.pkl
-
-inside the **model** folder.
-
----
-
-### 7. Run the Application
+### Run Application
 
 ```bash
 python app.py
 ```
 
-Open your browser and visit
+Open your browser and visit:
 
 ```
 http://127.0.0.1:5000
@@ -135,99 +111,74 @@ http://127.0.0.1:5000
 
 ---
 
-## 📖 How It Works
+## 🔄 Workflow
 
-1. User pastes an email.
-2. Email text is cleaned using Regex.
-3. Text is converted into numerical vectors using TF-IDF.
-4. Logistic Regression predicts whether the email is phishing or safe.
-5. Threat keywords are detected.
-6. URLs are extracted.
-7. Each URL is analyzed for:
-   - HTTP/HTTPS
-   - Suspicious keywords
-   - Risk Level
-8. Results are displayed on the dashboard.
-
----
-
-## 🚨 Threat Detection Categories
-
-CyberShield AI detects:
-
-- Urgent language
-- Banking keywords
-- Credential-related keywords
-- Reward and prize scams
+1. User logs into the application.
+2. User enters email text or uploads a `.txt` file.
+3. Email is preprocessed.
+4. TF-IDF converts text into numerical features.
+5. Logistic Regression predicts whether the email is Safe or Phishing.
+6. Additional security checks are performed:
+   - Threat Detection
+   - URL Analysis
+   - Sender Analysis
+   - Attachment Detection
+7. Results are displayed.
+8. User can download a PDF report.
 
 ---
 
-## 🌐 URL Security Analysis
+## 📊 Machine Learning Model
 
-The application analyzes every extracted URL.
-
-Example:
-
-```
-URL:
-http://fake-bank-login.com
-
-Security:
-❌ HTTP (Not Secure)
-
-Risk:
-🔴 High
-
-Suspicious Keywords:
-login, bank
-```
+| Model | Logistic Regression |
+|--------|---------------------|
+| Feature Extraction | TF-IDF Vectorizer |
+| Language | Python |
+| Library | Scikit-learn |
 
 ---
 
 ## 📸 Screenshots
 
-### Home Page
+## Login Page
 
-Paste email content into the analyzer.
+![alt text](<login page cybershield.png>)
 
-### Analysis Result
 
-Displays:
+## Home Page
 
-- AI Prediction
+![alt text](<homepage cybershield.png>)
+
+## Phishing Detection
+
+![alt text](<phishing detection.png>)
+![alt text](<result pdf.png>)
+```
+
+---
+
+## 📄 PDF Report
+
+The application can generate a professional PDF report containing:
+
+- Prediction Result
 - Confidence Score
 - Threat Analysis
+- URL Analysis
+- Attachment Analysis
 - Recommendation
-- URL Security Analysis
+- Date & Time
 
 ---
 
-## 📈 Future Improvements
+## 🔮 Future Scope
 
-- Risk Score Meter
-- File Upload (.txt/.eml)
-- Email Header Analysis
+- Support for .eml email files
+- Real-time Email Monitoring
 - VirusTotal API Integration
-- Dashboard with Analytics
-- Scan History using SQLite
-- PDF Report Generation
-- User Authentication
-- Dark/Light Theme
-- Email Attachment Scanner
-
----
-
-## 🎯 Learning Outcomes
-
-This project demonstrates:
-
-- Machine Learning
-- Natural Language Processing
-- Flask Web Development
-- Cybersecurity Fundamentals
-- URL Threat Detection
-- Data Preprocessing
-- Model Deployment
+- Dashboard with Analysis History
+- Risk Meter Visualization
+- Email Header Analysis
 
 ---
 
@@ -235,10 +186,16 @@ This project demonstrates:
 
 **Surabhi Talekar**
 
-Cybersecurity & AI Enthusiast
+Bachelor of Engineering (Information Technology)
 
 ---
 
 ## 📜 License
 
-This project is developed for educational and portfolio purposes.
+This project is developed for educational and academic purposes.
+
+---
+
+## ⭐ If you like this project
+
+Give it a ⭐ on GitHub.
